@@ -76,6 +76,10 @@ class Record:
             return print(f'No birthday specified for contact {self.name}')
         today = datetime.now()
         birthday_this_year = self.birthday.value.replace(today.year)
+        if today < self.birthday.value:
+            return print(f'{self.name} have birthday from future')
+        if today < birthday_this_year:
+            return print((birthday_this_year - today).days)
         if today < birthday_this_year:
             return print((birthday_this_year - today).days)
         return print((birthday_this_year.replace(today.year + 1) - today).days)
@@ -138,8 +142,5 @@ class AddressBook(UserDict):
                 yield self.data[key]
             self.count += value
             break
-
-
-a = Record('a', "01-01-1979")
-a.days_to_birthday()
-a.add_phone('1234567890')
+        if self.count > len(self.data):
+            self.count = 0
