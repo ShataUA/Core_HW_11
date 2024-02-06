@@ -56,11 +56,11 @@ class Birthday(Field):
         try:
             if isinstance(value, str):
                 self._value = datetime.strptime(value, '%d-%m-%Y')
-                # self._value = parse
             else:
                 self._value = value
         except ValueError:
-            raise ValueError ('Invalid birthday format. Try "dd-mm-yyyy"')
+            raise ValueError('Invalid birthday format. Try "dd-mm-yyyy"')
+
 
 
 class Record:
@@ -72,15 +72,13 @@ class Record:
 
     def days_to_birthday(self):
         """Days to birthday"""
-        if self.birthday:
-            today = datetime.now()
-            birthday_this_year = self.birthday.value.replace(today.year)
-            if today < birthday_this_year:
-                return print((birthday_this_year - today).days)
-            else:
-                return print((birthday_this_year.replace(today.year + 1) - today).days)
-        else:
+        if self.birthday is None:
             return print(f'No birthday specified for contact {self.name}')
+        today = datetime.now()
+        birthday_this_year = self.birthday.value.replace(today.year)
+        if today < birthday_this_year:
+            return print((birthday_this_year - today).days)
+        return print((birthday_this_year.replace(today.year + 1) - today).days)
 
     def add_phone(self, phone):
         """Add phone"""
@@ -140,3 +138,8 @@ class AddressBook(UserDict):
                 yield self.data[key]
             self.count += value
             break
+
+
+a = Record('a', "01-01-1979")
+a.days_to_birthday()
+a.add_phone('1234567890')
