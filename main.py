@@ -141,4 +141,5 @@ class AddressBook(UserDict):
             self.count += value
             break
         if self.count > len(self.data):
+            print('-------------------\nStarting a new loop in next iterator call\n-------------------')
             self.count = 0
