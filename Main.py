@@ -80,8 +80,6 @@ class Record:
             return print(f'{self.name} have birthday from future')
         if today < birthday_this_year:
             return print((birthday_this_year - today).days)
-        if today < birthday_this_year:
-            return print((birthday_this_year - today).days)
         return print((birthday_this_year.replace(today.year + 1) - today).days)
 
     def add_phone(self, phone):
