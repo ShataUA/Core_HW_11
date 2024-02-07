@@ -22,42 +22,41 @@ class Name(Field):
 class Phone(Field):
     """Phone class"""
     def __init__(self, value):
-        self._value = None
+        self.__value = None
         self.value = value
-        # self.value = value
-        super().__init__(self._value)
+        super().__init__(self.__value)
 
     @property
     def value(self):
         """Return the value"""
-        return self._value
+        return self.__value
 
     @value.setter
     def value(self, value):
         if value and not value.isdigit() or len(value) != 10:
             raise ValueError("Phone number must contain 10 digits.")
-        self._value = value
+        self.__value = value
 
 
 class Birthday(Field):
     """Birthday class"""
     def __init__(self, value):
-        self._value = None
+        self.__value = None
         self.value = value
-        super().__init__(self._value)
+        super().__init__(self.__value)
 
     @property
     def value(self):
         """Return the value"""
-        return self._value
+        return self.__value
 
     @value.setter
     def value(self, value):
         try:
             if isinstance(value, str):
-                self._value = datetime.strptime(value, '%d-%m-%Y')
+                self.__value = datetime.strptime(value, '%d-%m-%Y')
             else:
-                self._value = value
+                self.__value = value
         except ValueError:
             raise ValueError('Invalid birthday format. Try "dd-mm-yyyy"')
 
@@ -73,18 +72,17 @@ class Record:
     def days_to_birthday(self):
         """Days to birthday"""
         if self.birthday is None:
-            return print(f'No birthday specified for contact {self.name}')
+            return None
         today = datetime.now()
         birthday_this_year = self.birthday.value.replace(today.year)
-        if today < self.birthday.value:
-            return print(f'{self.name} have birthday from future')
         if today < birthday_this_year:
-            return print((birthday_this_year - today).days)
-        return print((birthday_this_year.replace(today.year + 1) - today).days)
+            return (birthday_this_year - today).days
+        return (birthday_this_year.replace(today.year + 1) - today).days
 
     def add_phone(self, phone):
         """Add phone"""
-        if phone and phone not in self.phones:
+        phones_list = [p.value for p in self.phones]
+        if phone not in phones_list:
             self.phones.append(Phone(phone))
 
     def remove_phone(self, phone):
@@ -141,5 +139,35 @@ class AddressBook(UserDict):
             self.count += value
             break
         if self.count > len(self.data):
-            print('-------------------\nStarting a new loop in next iterator call\n-------------------')
             self.count = 0
+
+#
+# a1 = Record('a1', '01-09-2989')
+# a2 = Record('a2', '02-09-1989')
+# a3 = Record('a3', '03-09-1989')
+# a4 = Record('a4', '04-09-1989')
+# a5 = Record('a5', '05-09-1989')
+# a6 = Record('a6', '06-09-1989')
+# a1.add_phone('1234567890')
+# a1.add_phone('0987654321')
+# a1.add_phone('1234567890')
+# book = AddressBook()
+# book.add_record(a1)
+# print(book.find('a1'))
+# book.add_record(a2)
+# book.add_record(a3)
+# book.add_record(a4)
+# book.add_record(a5)
+# book.add_record(a6)
+#
+# a1.days_to_birthday()
+#
+# iter1 = book.iterator(3)
+# for i in iter1:
+#     print(i)
+# print('--------------------------------')
+#
+# iter2 = book.iterator(2)
+# for i in iter2:
+#     print(i)
+
