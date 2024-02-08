@@ -21,11 +21,6 @@ class Name(Field):
 
 class Phone(Field):
     """Phone class"""
-    def __init__(self, value):
-        self.__value = None
-        self.value = value
-        super().__init__(self.__value)
-
     @property
     def value(self):
         """Return the value"""
@@ -40,10 +35,6 @@ class Phone(Field):
 
 class Birthday(Field):
     """Birthday class"""
-    def __init__(self, value):
-        self.__value = None
-        self.value = value
-        super().__init__(self.__value)
 
     @property
     def value(self):
@@ -110,10 +101,6 @@ class Record:
 
 class AddressBook(UserDict):
     """Address Book"""
-    def __init__(self):
-        super().__init__()
-        self.count = 0
-        self.data = {}
 
     def add_record(self, record):
         """New record in Address Book"""
@@ -132,42 +119,8 @@ class AddressBook(UserDict):
 
     def iterator(self, value):
         """Iterator"""
-        while self.count < len(self.data):
-            key_list = list(self.data.keys())[self.count: self.count + value]
-            for key in key_list:
-                yield self.data[key]
-            self.count += value
-            break
-        if self.count > len(self.data):
-            self.count = 0
+        count = 0
 
-#
-# a1 = Record('a1', '01-09-2989')
-# a2 = Record('a2', '02-09-1989')
-# a3 = Record('a3', '03-09-1989')
-# a4 = Record('a4', '04-09-1989')
-# a5 = Record('a5', '05-09-1989')
-# a6 = Record('a6', '06-09-1989')
-# a1.add_phone('1234567890')
-# a1.add_phone('0987654321')
-# a1.add_phone('1234567890')
-# book = AddressBook()
-# book.add_record(a1)
-# print(book.find('a1'))
-# book.add_record(a2)
-# book.add_record(a3)
-# book.add_record(a4)
-# book.add_record(a5)
-# book.add_record(a6)
-#
-# a1.days_to_birthday()
-#
-# iter1 = book.iterator(3)
-# for i in iter1:
-#     print(i)
-# print('--------------------------------')
-#
-# iter2 = book.iterator(2)
-# for i in iter2:
-#     print(i)
-
+        while count < len(self.data):
+            yield list(self.data.values())[count: count + value]
+            count += value
